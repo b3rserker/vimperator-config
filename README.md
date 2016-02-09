@@ -1,0 +1,2 @@
+# vimperator-config
+self-explanatory
