@@ -1,0 +1,61 @@
+let mapleader = ","
+set showstatuslinks=2
+set verbose=1
+set popups=tab,resized
+set defsearch=google
+
+" minor change to the solarized
+
+" make hint appear the most front (using 2^32)
+"hi -append Hint z-index: 2147483647 !important;
+
+set hintchars=hjklasdgyuiopqwertnmzxcvb
+
+" Start working with tabs
+nnoremap <C-k>  :tabnext<CR>
+nnoremap <C-j>  :tabprev<CR>
+nnoremap <C-p>  :tablast<CR>
+
+" TODO ARROWS!
+" inoremap <S> <left>
+inoremap <C-c> <Esc>
+inoremap <C-S-a> <C-Home><C-S-End>
+
+" vim: set ft=vimperator:
+set focuscontent
+nnoremap <Leader>R :source ~/.vimperatorrc<CR>:echo "Config reloaded!"<CR>
+
+"javascript to hide statusbar
+noremap <silent> <F8> :js toggle_bottombar()<CR>
+noremap : :js toggle_bottombar('on')<CR>:
+noremap o :js toggle_bottombar('on')<CR>o
+noremap O :js toggle_bottombar('on')<CR>O
+noremap t :js toggle_bottombar('on')<CR>t
+noremap T :js toggle_bottombar('on')<CR>t
+noremap / :js toggle_bottombar('on')<CR>/
+cnoremap <CR> <CR>:js toggle_bottombar('off')<CR>
+cnoremap <Esc> <Esc>:js toggle_bottombar('off')<CR>
+
+:js << EOF
+function toggle_bottombar(p) {
+    var bb = document.getElementById('liberator-bottombar');
+    if (!bb)
+        return;
+    if (p == 'on'){
+        bb.style.height = '';
+        bb.style.overflow = '';
+        return;
+    }
+    if (p == 'off'){
+        bb.style.height = '0px';
+        bb.style.overflow = 'hidden';
+        return;
+    }
+    bb.style.height = (bb.style.height == '') ? '0px' : '';
+    bb.style.overflow = (bb.style.height == '') ? '' : 'hidden';
+}
+toggle_bottombar();
+EOF
+
+ignorekeys clear
+ignorekeys add docs\\.google\\.com
