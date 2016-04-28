@@ -4,12 +4,18 @@ set verbose=1
 set popups=tab,resized
 set defsearch=google
 
+set editor='kate'
+
+
+
+
 " minor change to the solarized
 
 " make hint appear the most front (using 2^32)
 "hi -append Hint z-index: 2147483647 !important;
 
-set hintchars=hjklasdgyuiopqwertnmzxcvb
+"set hintchars=hjklasdgyuiopqwertnmzxcvb
+set hintchars=hjklyuiopnm
 
 " Start working with tabs
 nnoremap <C-k>  :tabnext<CR>
@@ -18,11 +24,11 @@ nnoremap <C-p>  :tablast<CR>
 
 " TODO ARROWS!
 " inoremap <S> <left>
-inoremap <C-c> <Esc>
+" inoremap <C-c> <Esc>
 inoremap <C-S-a> <C-Home><C-S-End>
 
 " vim: set ft=vimperator:
-set focuscontent
+set nofocuscontent
 nnoremap <Leader>R :source ~/.vimperatorrc<CR>:echo "Config reloaded!"<CR>
 
 "javascript to hide statusbar
@@ -33,8 +39,8 @@ noremap O :js toggle_bottombar('on')<CR>O
 noremap t :js toggle_bottombar('on')<CR>t
 noremap T :js toggle_bottombar('on')<CR>t
 noremap / :js toggle_bottombar('on')<CR>/
-cnoremap <CR> <CR>:js toggle_bottombar('off')<CR>
-cnoremap <Esc> <Esc>:js toggle_bottombar('off')<CR>
+#cnoremap <CR> <CR>:js toggle_bottombar('off')<CR>
+#cnoremap <Esc> <Esc>:js toggle_bottombar('off')<CR>
 
 :js << EOF
 function toggle_bottombar(p) {
@@ -54,8 +60,78 @@ function toggle_bottombar(p) {
     bb.style.height = (bb.style.height == '') ? '0px' : '';
     bb.style.overflow = (bb.style.height == '') ? '' : 'hidden';
 }
-toggle_bottombar();
+#toggle_bottombar();
 EOF
 
 ignorekeys clear
 ignorekeys add docs\\.google\\.com
+
+" Make bar yellow when focused.
+" From: http://www.reddit.com/r/linux/comments/99d55/i_could_use_a_little_vimperator_help_also/
+javascript <<EOF
+    (function() {
+        var inputElement = document.getElementById('liberator-commandline-command');
+        function swapBGColor(event) {
+            inputElement.style.backgroundColor = event.type == "focus" ? "yellow" : "";
+        }
+        inputElement.addEventListener('focus', swapBGColor, false);
+        inputElement.addEventListener('blur', swapBGColor, false);
+    })();
+EOF
+
+
+/*imap <C-f> <Nop>*/
+/*imap <C-b> <Nop>*/
+/*imap <C-n> <Nop>*/
+/*imap <C-p> <Nop>*/
+/*inoremap <C-p> <Right>*/
+/*inoremap <C-n> <Left>*/
+/*inoremap <C-f> <Down>*/
+/*inoremap <C-b> <Up>*/
+
+" switch tabs
+noremap <A-p> :tabprevious<CR>
+inoremap <A-p> <Esc>:tabprevious<CR>
+noremap <A-n> :tabnext<CR>
+inoremap <A-n> <Esc>:tabnext<CR>
+
+" move cursor in insert (or command) mode
+" characterwise
+inoremap <A-h> <Left>
+cnoremap <A-h> <Left>
+inoremap <A-l> <Right>
+cnoremap <A-l> <Right>
+" move cursor in insert (or command) mode
+" characterwise
+inoremap <A-j> <Down>
+cnoremap <A-j> <Down>
+inoremap <A-k> <Up>
+cnoremap <A-k> <Up>
+" wordwise
+inoremap <A-b> <C-Left>
+cnoremap <A-b> <C-Left>
+inoremap <A-f> <C-Right>
+cnoremap <A-f> <C-Right>
+" bol / eol
+inoremap <A-a> <C-a>
+cnoremap <A-a> <C-a>
+inoremap <A-e> <C-e>
+cnoremap <A-e> <C-e>
+
+" remap escape key
+noremap <C-c> <Esc>
+inoremap <C-c> <Esc>
+cnoremap <C-c> <Esc>
+
+" Emacs navigation in command line and insert mode
+cmap <C-n> <Tab>
+cmap <C-p> <S-Tab>
+cmap <C-f> <Right>
+cmap <C-b> <Left>
+cmap <C-j> <CR>
+noremap <C-j> <CR>
+inoremap <C-j> <CR>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
